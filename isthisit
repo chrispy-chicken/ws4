@@ -1,0 +1,1 @@
+<node pkg="tf2_ros" type="static_transform_publisher" name="imu_base_link" args="0 0 0 0 0 0 base_link imu_link" />
