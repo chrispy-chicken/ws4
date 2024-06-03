@@ -1,0 +1,37 @@
+<launch>
+  <param name="/use_sim_time" value="true" />
+
+  <node name="cartographer_node" pkg="cartographer_ros"
+      type="cartographer_node" args="
+          -configuration_directory $(find cartographer_ros)/configuration_files
+          -configuration_basename boat_copy.lua
+          -load_state_filename $(find cartographer_ros)/imu.bag.pbstream"
+      output="screen">
+      <remap from="landmark" to="v_landmarks" />
+  </node>
+
+ 
+  <node name="rviz" pkg="rviz" type="rviz" required="true"
+      args="-d $(find cartographer_ros)/configuration_files/demo_2d.rviz" />
+  <node name="playbag" pkg="rosbag" type="play"
+      args="--clock $(arg bag_filename)" /> 
+
+  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
+      type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+
+
+</launch>
+
+
+<!-- load_state_filename test.pbstream"
+ -->
+
+   <!-- <node name="cartographer_offline_node" pkg="cartographer_ros"
+      required="$(arg no_rviz)"
+      type="cartographer_offline_node" args="
+          -configuration_directory $(arg configuration_directory)
+          -configuration_basenames $(arg configuration_basenames)
+          
+          -bag_filenames $(arg bag_filenames)"
+      launch-prefix="$(arg launch_prefix)"
+      output="screen"/> -->
